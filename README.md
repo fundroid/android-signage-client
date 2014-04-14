@@ -1,4 +1,4 @@
-# Codebits 2014 Digital Signage Client
+# [Codebits 2014][cb] Digital Signage Client
 
 This started out as a barebones webview to test browser behavior, and kind of grew organically from there - it includes a few tweaks to the webview to enable the back button, JS extensions, location, manual APK downloads, SSL certificate validation overrides (so appropriate to this age of Heartbleed), and other things you generally _shouldn't_ do in an Android application, but might be useful to somebody.
 
@@ -6,7 +6,15 @@ This started out as a barebones webview to test browser behavior, and kind of gr
 
 Unlike [our Raspberry Pi client from 2012][dsc], this won't be very useful without a server to go with it. 
 
-We'll be cleaning up the server source ASAP (as well as removing some proprietary bits) and putting it up on [this repo][dss], so watch that for updates, because it includes [a spiffy web console][cb] and other goodies.
+We'll be cleaning up the server source ASAP (as well as removing some proprietary bits) and putting it up on [this repo][dss], so watch that for updates, because it includes [a spiffy web console][cbb] and other goodies.
+
+## Target Hardware
+
+The target hardware we used was the [Minix Neo X5 mini][minix], which runs Android 4.2.2 out of the box and retails for ~€70, providing a nice bang for the buck (mind you, if you really need 1080p video you'll likely be better off with the X7 mini -- but we haven't tested that).
+
+[Here's a short video of our early stress testing][flickr] -- the set includes screen recordings (from a Mac) of some of the displays we created, and there's [an insane amount of photography][fotos] and [video][videos] from the event for your perusal if you've never actually been to [Codebits][cb].
+
+There was no rooting or custom firmware involved, and the only serious issue we had was the infamous [Android Webview memory leak bug][gc], which was heavily apparent if you used `canvas` for rendering assets (which we did, alas).
 
 ## Architecture
 
@@ -64,4 +72,10 @@ In case you end up importing the project there and wish to return to a saner env
 [dss]: https://github.com/sapo/digital-signage-server
 [api]: https://codebits.eu/s/api
 [mc]: https://meocloud.pt/
-[cb]: https://codebits.eu/s/blog/bee64deeb27071c592b0adcac7243e0a
+[cbb]: https://codebits.eu/s/blog/bee64deeb27071c592b0adcac7243e0a
+[gc]: https://code.google.com/p/android/issues/detail?id=9375
+[minix]: http://www.minix.com.hk/Products/MINIX-NEO-X5mini.html
+[flickr]: https://www.flickr.com/photos/ruicarmo/13842749675/in/set-72157643937892615
+[fotos]: http://fotos.sapo.pt/pesquisa/?termos=codebits&listar=muitas&ordenar=maisrecentes
+[videos]: http://videos.sapo.pt/search.html?word=codebits&order=news&page=1
+[cb]: https://codebits.eu
