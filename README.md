@@ -6,7 +6,7 @@ This started out as a barebones webview to test browser behavior, and kind of gr
 
 Unlike [our Raspberry Pi client from 2012][dsc], this won't be very useful without a server to go with it. 
 
-We'll be cleaning up the server source ASAP (as well as removing some proprietary bits) and putting it up on [this repo][dss], so watch that for updates.
+We'll be cleaning up the server source ASAP (as well as removing some proprietary bits) and putting it up on [this repo][dss], so watch that for updates, because it includes [a spiffy web console][cb] and other goodies.
 
 ## Architecture
 
@@ -64,3 +64,4 @@ In case you end up importing the project there and wish to return to a saner env
 [dss]: https://github.com/sapo/digital-signage-server
 [api]: https://codebits.eu/s/api
 [mc]: https://meocloud.pt/
+[cb]: https://codebits.eu/s/blog/bee64deeb27071c592b0adcac7243e0a
