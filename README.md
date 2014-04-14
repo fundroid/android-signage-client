@@ -58,8 +58,6 @@ If you must use an IDE, this repo includes NetBeans project files. We recommend 
     # check logs
     monitor
 
-ant release install
-
 ## Recovering from Eclipse
 
 In case you end up importing the project there and wish to return to a saner environment:
