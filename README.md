@@ -1,12 +1,43 @@
-# [Codebits 2014][cb] Digital Signage Client
+# [Codebits 2014][cb] Digital Signage Client (MQTT Branch)
 
-This started out as a barebones webview to test browser behavior, and kind of grew organically from there - it includes a few tweaks to the webview to enable the back button, JS extensions, location, manual APK downloads, SSL certificate validation overrides (so appropriate to this age of Heartbleed), and other things you generally _shouldn't_ do in an Android application, but might be useful to somebody.
+This is an [MQTT][mqtt] enabled version of our client that aims to deliver real-time synchronization between devices.
 
-## Dependencies
+## Program Flow
 
-Unlike [our Raspberry Pi client from 2012][dsc], this won't be very useful without a server to go with it. 
+1. Client registers on [MQTT][mqtt] broker and sends out a "new client" message to the "signage-server" topic.
+2. Client then subscribes a private "signage-client-<MAC Address>" topic and awaits further instructions
+3. The server then sends out one of the following:
 
-We'll be cleaning up the server source ASAP (as well as removing some proprietary bits) and putting it up on [this repo][dss], so watch that for updates, because it includes [a spiffy web console][cbb] and other goodies.
+* New playlist/announcement message
+* Join group message (indicating a group topic to which the client MUST subscribe to)
+
+The client will then listen on its private topic and any group topics for more messages, and broadcast to the "signage-status" topic the URLs of any assets it is currently playing.
+
+## Messages
+
+There are two main kinds of messages:
+
+1. A "new playlist" message that contains JSON data specifying what the client should do
+2. An "announcement" message that contains a URL to be played immediately (with an optional duration)
+
+## Playlist Specs
+
+A playlist is a JSON structure like so:
+
+    {
+        "playlist": [
+            {"uri": "http://...", "duration": 30},
+            {"shuffle": "_random", "count": 3},
+            {"uri": "http://...", "duration": 30},
+            ...
+        ],
+        "_random": [
+            {"uri": "http://...", "duration": 30},
+            ...
+        ]
+    }
+
+The `shuffle`: `key` construct allows us to build sub-playlists on the server side and serialize them inside a playlist update.
 
 ## Target Hardware
 
@@ -77,3 +108,4 @@ In case you end up importing the project there and wish to return to a saner env
 [fotos]: http://fotos.sapo.pt/pesquisa/?termos=codebits&listar=muitas&ordenar=maisrecentes
 [videos]: http://videos.sapo.pt/search.html?word=codebits&order=news&page=1
 [cb]: https://codebits.eu
+[mqtt]: http://mqtt.org
