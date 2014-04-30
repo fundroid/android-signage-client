@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/sapo/android-signage-client.png?label=ready&title=Ready)](https://waffle.io/sapo/android-signage-client)
 # [Codebits 2014][cb] Digital Signage Client
 
 This started out as a barebones webview to test browser behavior, and kind of grew organically from there - it includes a few tweaks to the webview to enable the back button, JS extensions, location, manual APK downloads, SSL certificate validation overrides (so appropriate to this age of Heartbleed), and other things you generally _shouldn't_ do in an Android application, but might be useful to somebody.
