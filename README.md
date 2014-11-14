@@ -45,6 +45,8 @@ First off, edit `strings.xml.dist` with the appropriate endpoints and rename it 
 Without an IDE, just set your PATH to the Android tools and use `ant`:
 
     export PATH=$PATH:$HOME/Developer/Android/sdk/tools
+    # generate debug keystore
+    ant debug
     ant release
 
 If you must use an IDE, this repo includes NetBeans project files. We recommend you use those.
