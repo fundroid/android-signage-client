@@ -12,18 +12,24 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Arrays;
+import android.util.Log;
 import org.apache.http.conn.util.InetAddressUtils;
 
 /**
  *
  * @author rcarmo
  */
+
+
 public class NetworkInterfaces {
     /**
      *
      * @param interfaceName
      * @return
      */
+    public static final List<String> VALID_INTERFACES = Arrays.asList("eth0","wlan0");
+
     public static String getMACAddress(String interfaceName) {
         try {
             List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -31,12 +37,15 @@ public class NetworkInterfaces {
                 if (interfaceName != null) {
                     if (!intf.getName().equalsIgnoreCase(interfaceName)) continue;
                 }
+                if (!VALID_INTERFACES.contains(intf.getName())) continue;
                 byte[] mac = intf.getHardwareAddress();
                 if (mac==null) continue;//return "";
                 StringBuilder buf = new StringBuilder();
                 for (int idx=0; idx<mac.length; idx++)
                     buf.append(String.format("%02X:", mac[idx]));       
                 if (buf.length()>0) buf.deleteCharAt(buf.length()-1);
+                Log.d("getMACAddress", intf.getName());
+                Log.d("getMACAddress", buf.toString());
                 return buf.toString();
             }
         } catch (SocketException ex) {} 
@@ -56,6 +65,7 @@ public class NetworkInterfaces {
                 if (interfaceName != null) {
                     if (!intf.getName().equalsIgnoreCase(interfaceName)) continue;
                 }
+                if (!VALID_INTERFACES.contains(intf.getName())) continue;
                 List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
                 for (InetAddress addr : addrs) {
                     if (!addr.isLoopbackAddress()) {
