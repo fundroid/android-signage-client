@@ -2,6 +2,7 @@ package eu.codebits.plasmas;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -44,7 +45,7 @@ public class FullScreenWebViewActivity extends Activity {
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
      * user interaction before hiding the system UI.
      */
-    private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
+    private static final int AUTO_HIDE_DELAY_MILLIS = 10;
 
     /**
      * The flags to pass to {@link SystemUiHider#getInstance}.
@@ -126,7 +127,7 @@ public class FullScreenWebViewActivity extends Activity {
                         Toast.makeText(activity, "Retrying...", Toast.LENGTH_SHORT).show();
                         view.loadUrl(retryUrl);
                     }
-                }, 5000);
+                }, 1000);
                 //super.onReceivedError(view, errorCode, description, failingUrl);
             }
 
@@ -159,6 +160,7 @@ public class FullScreenWebViewActivity extends Activity {
         webView.loadUrl(getString(R.string.initial_url));
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
+
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.

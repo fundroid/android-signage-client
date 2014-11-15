@@ -29,7 +29,8 @@
             android:name=".FullScreenWebViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:theme="@style/FullScreenTheme" >
+            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
+            android:windowSoftInputMode="adjustResize">
         </activity>
         
         <!-- This is the launcher activity - a stub that starts the polling service -->
