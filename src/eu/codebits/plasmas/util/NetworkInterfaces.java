@@ -44,8 +44,8 @@ public class NetworkInterfaces {
                 for (int idx=0; idx<mac.length; idx++)
                     buf.append(String.format("%02X:", mac[idx]));       
                 if (buf.length()>0) buf.deleteCharAt(buf.length()-1);
-                Log.d("getMACAddress", intf.getName());
-                Log.d("getMACAddress", buf.toString());
+                //Log.d("getMACAddress", intf.getName());
+                //Log.d("getMACAddress", buf.toString());
                 return buf.toString();
             }
         } catch (SocketException ex) {} 
