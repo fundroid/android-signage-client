@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/sapo/android-signage-client.png?label=ready&title=Ready)](https://waffle.io/sapo/android-signage-client)
 # [Codebits 2014][cb] Digital Signage Client
 
 This started out as a barebones webview to test browser behavior, and kind of grew organically from there - it includes a few tweaks to the webview to enable the back button, JS extensions, location, manual APK downloads, SSL certificate validation overrides (so appropriate to this age of Heartbleed), and other things you generally _shouldn't_ do in an Android application, but might be useful to somebody.
@@ -44,6 +45,8 @@ First off, edit `strings.xml.dist` with the appropriate endpoints and rename it 
 Without an IDE, just set your PATH to the Android tools and use `ant`:
 
     export PATH=$PATH:$HOME/Developer/Android/sdk/tools
+    # generate debug keystore
+    ant debug
     ant release
 
 If you must use an IDE, this repo includes NetBeans project files. We recommend you use those.
