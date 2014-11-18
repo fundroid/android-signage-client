@@ -3,6 +3,7 @@ package eu.codebits.plasmas;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.webkit.DownloadListener;
 import android.webkit.GeolocationPermissions;
+import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -23,8 +25,31 @@ import android.widget.Toast;
 import static eu.codebits.plasmas.util.NetworkInterfaces.getIPAddress;
 import static eu.codebits.plasmas.util.NetworkInterfaces.getMACAddress;
 import eu.codebits.plasmas.util.SystemUiHider;
-import static eu.codebits.plasmas.util.TrustManager.overrideCertificateChainValidation;
-import java.net.URI;
+
+
+
+/** 
+ * A textbook JavaScript interface class that exposes our utility functions 
+ */
+
+class HardwareInterface {
+    Context mContext;
+    
+    HardwareInterface(Context c) {
+        mContext = c;
+    }
+    
+    @JavascriptInterface
+    public String IPAddress() {
+        return getIPAddress(null, true);
+    }
+
+    @JavascriptInterface
+    public String MACAddress() {
+        return getMACAddress(null);
+    }
+}
+
 
 /**
  * A full-screen activity that shows and hides the system UI (i.e. status bar
@@ -101,6 +126,7 @@ public class FullScreenWebViewActivity extends Activity {
         setContentView(R.layout.activity_fullscreen);
         webView = (WebView) findViewById(R.id.webView);
         webView.setWebChromeClient(new CustomWebChromeClient());
+        webView.addJavascriptInterface(new HardwareInterface(this), "Android");
 
         webView.setWebViewClient(new WebViewClient() {
             @Override
