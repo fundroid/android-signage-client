@@ -2,7 +2,6 @@ package eu.codebits.plasmas;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,7 +25,6 @@ import android.widget.Toast;
 import static eu.codebits.plasmas.util.NetworkInterfaces.getIPAddress;
 import static eu.codebits.plasmas.util.NetworkInterfaces.getMACAddress;
 import eu.codebits.plasmas.util.SystemUiHider;
-
 
 
 /** 
