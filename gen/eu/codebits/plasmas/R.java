@@ -38,6 +38,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class string {
         public static final int app_name=0x7f060000;
+        public static final int blank_page=0x7f060003;
+        public static final int initial_url=0x7f060001;
+        public static final int polling_url=0x7f060002;
+        public static final int video_template=0x7f060004;
     }
     public static final class style {
         /** 
