@@ -14,3 +14,5 @@ hs_err_pid*
 
 # Our private strings
 strings.xml
+strings.xml.dist
+#
