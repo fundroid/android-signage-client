@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,13 +13,10 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.webkit.DownloadListener;
-import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.webkit.WebResourceResponse;
+import org.xwalk.core.XWalkView;
+import org.xwalk.core.XWalkResourceClient;
 import android.widget.Toast;
 import static eu.codebits.plasmas.util.NetworkInterfaces.getIPAddress;
 import static eu.codebits.plasmas.util.NetworkInterfaces.getMACAddress;
@@ -80,16 +76,6 @@ public class FullScreenWebViewActivity extends Activity {
      */
     private SystemUiHider mSystemUiHider;
 
-    public class CustomWebChromeClient extends WebChromeClient {
-
-        @Override
-        public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-            // Always grant permission since the app itself requires location
-            // permission and the user has therefore already granted it
-            callback.invoke(origin, true, false);
-        }
-    }
-
     private void rebuildWebview() {
     }
 
@@ -97,7 +83,46 @@ public class FullScreenWebViewActivity extends Activity {
     private Activity activity;
     private Intent intent;
 
-    WebView webView;
+    XWalkView webView;
+    
+    class CustomResourceClient extends XWalkResourceClient {
+        
+        CustomResourceClient(XWalkView view) {
+            super(view);
+        }
+        
+        @Override
+        public WebResourceResponse shouldInterceptLoadRequest(XWalkView view, String url) {
+            return null; // continue loading everything
+        }
+
+
+        @Override
+        public void onReceivedLoadError(final XWalkView view, int errorCode, String description, String failingUrl) {
+            // load a blank page and retry, rather heavy-handedly
+            Log.w(TAG, String.format("%d: Could not load %s: %s", errorCode, failingUrl, description));
+            view.load(null, getString(R.string.blank_page));
+            Toast.makeText(activity, String.format("Error: %s", description), Toast.LENGTH_SHORT).show();
+            final String retryUrl = failingUrl;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(activity, "Retrying...", Toast.LENGTH_SHORT).show();
+                    view.load(retryUrl,null);
+                }
+            }, 1000);
+            //super.onReceivedError(view, errorCode, description, failingUrl);
+        }
+
+        @Override
+        public void onLoadFinished(XWalkView view, String url) {
+            // inject device information into the DOM
+            webView.load(
+                    String.format("javascript:(function() {window.device = Object({'MACAddress':'%s', 'IPAddress':'%s'})})()",
+                            getMACAddress(null), getIPAddress(null, true)), null
+            );
+        }
+    }
 
     @Override
     public void onNewIntent(Intent intent) {
@@ -110,8 +135,7 @@ public class FullScreenWebViewActivity extends Activity {
             url = uri.toString();
         }
         //Log.i(TAG, "Displaying: " + url);
-        webView.freeMemory();
-        webView.loadUrl(url);
+        webView.load(url,null);
     }
 
     @SuppressLint({"SetJavaScriptEnabled", "NewApi"})
@@ -123,65 +147,19 @@ public class FullScreenWebViewActivity extends Activity {
         intent = getIntent();
         activity = this;
         setContentView(R.layout.activity_fullscreen);
-        webView = (WebView) findViewById(R.id.webView);
-        webView.setWebChromeClient(new CustomWebChromeClient());
+        webView = (XWalkView) findViewById(R.id.webView);
+        //webView.setWebChromeClient(new CustomWebChromeClient());
         webView.addJavascriptInterface(new HardwareInterface(this), "Android");
 
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return false; // handle redirects internally (stop launching the default browser)
-            }
-
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed(); // allow self-unsigned SSL certificates for dev 
-            }
-
-            @Override
-            public void onReceivedError(final WebView view, int errorCode, String description, String failingUrl) {
-                // load a blank page and retry, rather heavy-handedly
-                Log.w(TAG, String.format("%d: Could not load %s: %s", errorCode, failingUrl, description));
-                view.loadData(getString(R.string.blank_page), "text/html", null);
-                Toast.makeText(activity, "Network error", Toast.LENGTH_SHORT).show();
-                final String retryUrl = failingUrl;
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(activity, "Retrying...", Toast.LENGTH_SHORT).show();
-                        view.loadUrl(retryUrl);
-                    }
-                }, 1000);
-                //super.onReceivedError(view, errorCode, description, failingUrl);
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                // inject device information into the DOM
-                webView.loadUrl(
-                        String.format("javascript:(function() {window.device = Object({'MACAddress':'%s', 'IPAddress':'%s'})})()",
-                                getMACAddress(null), getIPAddress(null, true))
-                );
-            }
-        });
-
-        webView.setDownloadListener(new DownloadListener() {
-            // allow us to download stuff inside this webview for dev
-            public void onDownloadStart(String url, String userAgent,
-                    String contentDisposition, String mimetype,
-                    long contentLength) {
-
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-            }
-        });
-
+        webView.setResourceClient(new CustomResourceClient(webView));
+        /*
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setGeolocationEnabled(true); // let us send back minimal info from JS
         webView.getSettings().setMediaPlaybackRequiresUserGesture(false); // start media automatically (if we can get it to work)
         webView.getSettings().setUseWideViewPort(true); // use viewport meta tag if present
-
-        webView.loadUrl(getString(R.string.initial_url));
+        */
+        webView.load(getString(R.string.initial_url), null);
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
 
@@ -236,19 +214,6 @@ public class FullScreenWebViewActivity extends Activity {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (getResources().getInteger(R.integer.back_button_in_webview) > 0) {
-            if (webView.canGoBack()) {
-                webView.goBack();
-            } else {
-                super.onBackPressed();
-            }
-        } else {
-            super.onBackPressed();
-        }
     }
 
     /**
