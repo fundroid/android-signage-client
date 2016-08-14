@@ -27,6 +27,7 @@ To play video, we just stick a `video` tag inside the WebView and run with it --
 
 ## Stuff That Needs Improving
 
+* [Better device identifiers](http://android-developers.blogspot.pt/2011/03/identifying-app-installations.html).
 * Due to issues with passing some data in intent extras, we hand over some stuff between services using static class members. This is a hack, and needs to be expunged from the code.
 * Besides exposing the device's MAC and IP addresses in the DOM, we need to provide a way for bi-directional communication between the app and the `video` tag for error handling (i.e., skip to the next playlist item if an HTTP live stream breaks or when a video finishes untimely).
 * The network protocol we chose for 2014 (constantly retrieving a "live" playlist via HTTP polling) was designed in an attempt to do 'live' random playlists and dynamic insertion of MEO Kanal assets, and was, in retrospect, not much of an improvement. Also, there wasn't much time to implement client status metrics, etc.
