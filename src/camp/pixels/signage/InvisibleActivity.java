@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package eu.codebits.plasmas;
+package camp.pixels.signage;
 
 import android.app.Activity;
 import android.content.Intent;

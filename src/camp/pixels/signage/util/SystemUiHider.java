@@ -1,4 +1,4 @@
-package eu.codebits.plasmas.util;
+package camp.pixels.signage.util;
 
 import android.app.Activity;
 import android.os.Build;
@@ -52,37 +52,47 @@ public abstract class SystemUiHider {
      * but cannot be hidden, show and hide will toggle low profile mode.
      */
     public static final int FLAG_HIDE_NAVIGATION = FLAG_FULLSCREEN | 0x4;
-
+    /**
+     * A dummy no-op callback for use when there is no other listener set.
+     */
+    private static OnVisibilityChangeListener sDummyListener = new OnVisibilityChangeListener() {
+        @Override
+        public void onVisibilityChange(boolean visible) {
+        }
+    };
     /**
      * The activity associated with this UI hider object.
      */
     protected Activity mActivity;
-
     /**
      * The view on which {@link View#setSystemUiVisibility(int)} will be called.
      */
     protected View mAnchorView;
-
     /**
      * The current UI hider flags.
-     * 
+     *
      * @see #FLAG_FULLSCREEN
      * @see #FLAG_HIDE_NAVIGATION
      * @see #FLAG_LAYOUT_IN_SCREEN_OLDER_DEVICES
      */
     protected int mFlags;
-
     /**
      * The current visibility callback.
      */
     protected OnVisibilityChangeListener mOnVisibilityChangeListener = sDummyListener;
+
+    protected SystemUiHider(Activity activity, View anchorView, int flags) {
+        mActivity = activity;
+        mAnchorView = anchorView;
+        mFlags = flags;
+    }
 
     /**
      * Creates and returns an instance of {@link SystemUiHider} that is
      * appropriate for this device. The object will be either a
      * {@link SystemUiHiderBase} or {@link SystemUiHiderHoneycomb} depending on
      * the device.
-     * 
+     *
      * @param activity The activity whose window's system UI should be
      *            controlled by this class.
      * @param anchorView The view on which
@@ -97,12 +107,6 @@ public abstract class SystemUiHider {
         } else {
             return new SystemUiHiderBase(activity, anchorView, flags);
         }
-    }
-
-    protected SystemUiHider(Activity activity, View anchorView, int flags) {
-        mActivity = activity;
-        mAnchorView = anchorView;
-        mFlags = flags;
     }
 
     /**
@@ -150,15 +154,6 @@ public abstract class SystemUiHider {
     }
 
     /**
-     * A dummy no-op callback for use when there is no other listener set.
-     */
-    private static OnVisibilityChangeListener sDummyListener = new OnVisibilityChangeListener() {
-        @Override
-        public void onVisibilityChange(boolean visible) {
-        }
-    };
-
-    /**
      * A callback interface used to listen for system UI visibility changes.
      */
     public interface OnVisibilityChangeListener {
@@ -167,6 +162,6 @@ public abstract class SystemUiHider {
          * 
          * @param visible True if the system UI is visible.
          */
-        public void onVisibilityChange(boolean visible);
+        void onVisibilityChange(boolean visible);
     }
 }

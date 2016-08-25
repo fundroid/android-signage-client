@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 
-package eu.codebits.plasmas.util;
+package camp.pixels.signage.util;
 
 import android.util.Log;
+
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;

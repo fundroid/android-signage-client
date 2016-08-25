@@ -1,4 +1,4 @@
-package eu.codebits.plasmas;
+package camp.pixels.signage;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -22,9 +22,12 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-import static eu.codebits.plasmas.util.NetworkInterfaces.getIPAddress;
-import static eu.codebits.plasmas.util.NetworkInterfaces.getMACAddress;
-import eu.codebits.plasmas.util.SystemUiHider;
+
+import camp.pixels.signage.util.SystemUiHider;
+import eu.codebits.plasmas.R;
+
+import static camp.pixels.signage.util.NetworkInterfaces.getIPAddress;
+import static camp.pixels.signage.util.NetworkInterfaces.getMACAddress;
 
 
 /** 
@@ -74,30 +77,38 @@ public class FullScreenWebViewActivity extends Activity {
      * The flags to pass to {@link SystemUiHider#getInstance}.
      */
     private static final int HIDER_FLAGS = SystemUiHider.FLAG_HIDE_NAVIGATION;
-
+    private static final String TAG = "WebViewActivity";
+    WebView webView;
+    Handler mHideHandler = new Handler();
+    /**
+     * Touch listener to use for in-layout UI controls to delay hiding the
+     * system UI. This is to prevent the jarring behavior of controls going away
+     * while interacting with activity UI.
+     */
+    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (AUTO_HIDE) {
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+            }
+            return false;
+        }
+    };
     /**
      * The instance of the {@link SystemUiHider} for this activity.
      */
     private SystemUiHider mSystemUiHider;
-
-    public class CustomWebChromeClient extends WebChromeClient {
-
+    Runnable mHideRunnable = new Runnable() {
         @Override
-        public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-            // Always grant permission since the app itself requires location
-            // permission and the user has therefore already granted it
-            callback.invoke(origin, true, false);
+        public void run() {
+            mSystemUiHider.hide();
         }
-    }
-
-    private void rebuildWebview() {
-    }
-
-    private static final String TAG = "WebViewActivity";
+    };
     private Activity activity;
     private Intent intent;
 
-    WebView webView;
+    private void rebuildWebview() {
+    }
 
     @Override
     public void onNewIntent(Intent intent) {
@@ -135,7 +146,7 @@ public class FullScreenWebViewActivity extends Activity {
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                handler.proceed(); // allow self-unsigned SSL certificates for dev 
+                handler.proceed(); // allow self-unsigned SSL certificates for dev
             }
 
             @Override
@@ -168,8 +179,8 @@ public class FullScreenWebViewActivity extends Activity {
         webView.setDownloadListener(new DownloadListener() {
             // allow us to download stuff inside this webview for dev
             public void onDownloadStart(String url, String userAgent,
-                    String contentDisposition, String mimetype,
-                    long contentLength) {
+                                        String contentDisposition, String mimetype,
+                                        long contentLength) {
 
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             }
@@ -252,34 +263,21 @@ public class FullScreenWebViewActivity extends Activity {
     }
 
     /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
-    View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (AUTO_HIDE) {
-                delayedHide(AUTO_HIDE_DELAY_MILLIS);
-            }
-            return false;
-        }
-    };
-
-    Handler mHideHandler = new Handler();
-    Runnable mHideRunnable = new Runnable() {
-        @Override
-        public void run() {
-            mSystemUiHider.hide();
-        }
-    };
-
-    /**
      * Schedules a call to hide() in [delay] milliseconds, canceling any
      * previously scheduled calls.
      */
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    public class CustomWebChromeClient extends WebChromeClient {
+
+        @Override
+        public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+            // Always grant permission since the app itself requires location
+            // permission and the user has therefore already granted it
+            callback.invoke(origin, true, false);
+        }
     }
 }

@@ -4,23 +4,22 @@
  * and open the template in the editor.
  */
 
-package eu.codebits.plasmas.services;
+package camp.pixels.signage.services;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
 import android.util.Log;
-import eu.codebits.plasmas.receivers.PlayerReceiver;
-import eu.codebits.plasmas.receivers.StartingReceiver;
-import static eu.codebits.plasmas.services.PlayerService.PARAM_PLAYLIST_INDEX;
-import static eu.codebits.plasmas.util.TrustManager.overrideCertificateChainValidation;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,10 +27,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import camp.pixels.signage.receivers.StartingReceiver;
+
+import static camp.pixels.signage.services.PlayerService.PARAM_PLAYLIST_INDEX;
+import static camp.pixels.signage.util.TrustManager.overrideCertificateChainValidation;
 
 /**
  *
@@ -87,7 +90,7 @@ public class PollingService extends IntentService {
                 //Log.d(TAG, uri[0]);
                 URL url = new URL(uri[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                HttpURLConnection httpConnection = (HttpURLConnection) urlConnection;
+                HttpURLConnection httpConnection = urlConnection;
                 httpConnection.setAllowUserInteraction(false);
                 httpConnection.connect();
 

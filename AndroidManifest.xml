@@ -16,17 +16,17 @@
         android:targetSdkVersion="16" />
 
     <application
+        android:allowBackup="true"
         android:clearTaskOnLaunch="true"
         android:finishOnTaskLaunch="true"
-        android:allowBackup="true"
-        android:launchMode="singleTop"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:launchMode="singleTop"
         android:theme="@style/AppTheme" >
         <!-- Our webview activity, which is launched from the other -->
         <activity
-            android:name=".FullScreenWebViewActivity"
+            android:name="camp.pixels.signage.FullScreenWebViewActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
@@ -35,7 +35,7 @@
         
         <!-- This is the launcher activity - a stub that starts the polling service -->
         <activity
-            android:name=".InvisibleActivity"
+            android:name="camp.pixels.signage.InvisibleActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
@@ -47,19 +47,19 @@
         </activity>
 
         <!-- this polls the server for updates -->
-        <service android:name=".services.PollingService"/>
+        <service android:name="camp.pixels.signage.services.PollingService" />
 
         <!-- this handles each item and controls the webview -->
-        <service android:name=".services.PlayerService"/>
+        <service android:name="camp.pixels.signage.services.PlayerService" />
 
         <!-- this handles playlist updates -->
-        <receiver android:name=".receivers.PlayerReceiver">
+        <receiver android:name="camp.pixels.signage.receivers.PlayerReceiver">
             <intent-filter>
                 <action android:name="eu.codebits.plasmas.action.PlaylistUpdate"/>
             </intent-filter>
         </receiver>
-        
-        <receiver android:name=".receivers.StartingReceiver">
+
+        <receiver android:name="camp.pixels.signage.receivers.StartingReceiver">
             <intent-filter>
                 <action android:name="eu.codebits.plasmas.action.StartPolling"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

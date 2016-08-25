@@ -4,17 +4,18 @@
  * and open the template in the editor.
  */
 
-package eu.codebits.plasmas.util;
+package camp.pixels.signage.util;
 
 import android.annotation.SuppressLint;
+
+import org.apache.http.conn.util.InetAddressUtils;
+
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Arrays;
-import android.util.Log;
-import org.apache.http.conn.util.InetAddressUtils;
 
 /**
  *
