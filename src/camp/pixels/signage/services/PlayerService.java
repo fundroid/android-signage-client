@@ -134,7 +134,7 @@ public class PlayerService extends IntentService {
                     //Log.i(TAG, item.toString());
                     String kind = item.getString("type").toLowerCase();
                     duration = item.getInt("duration_secs");
-                    if (kind.equals("video") || kind.equals("meokanal")) {
+                    if kind.equals("video") {
                         displayItem("data:text/html;base64," + Base64.encodeToString(getString(R.string.video_template).replace("%s", item.getString("uri")).getBytes(), Base64.NO_WRAP));
                         duration += context.getResources().getInteger(R.integer.video_buffering_padding);
                         //Log.d(TAG, item.getString("uri"));
