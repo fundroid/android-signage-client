@@ -1,4 +1,4 @@
-package eu.codebits.plasmas;
+package camp.pixels.signage;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -22,9 +22,9 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-import static eu.codebits.plasmas.util.NetworkInterfaces.getIPAddress;
-import static eu.codebits.plasmas.util.NetworkInterfaces.getMACAddress;
-import eu.codebits.plasmas.util.SystemUiHider;
+import static camp.pixels.signage.util.NetworkInterfaces.getIPAddress;
+import static camp.pixels.signage.util.NetworkInterfaces.getMACAddress;
+import camp.pixels.signage.util.SystemUiHider;
 
 
 /** 
