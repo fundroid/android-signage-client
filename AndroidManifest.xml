@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="eu.codebits.plasmas"
+          package="camp.pixels.signage"
           android:versionCode="1"
-          android:versionName="1.0.1" >
+          android:versionName="1.0.2" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -40,7 +40,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
-                <action android:name="eu.codebits.plasmas.action.DisplayItem"/>
+                <action android:name="camp.pixels.signage.action.DisplayItem"/>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -55,13 +55,13 @@
         <!-- this handles playlist updates -->
         <receiver android:name=".receivers.PlayerReceiver">
             <intent-filter>
-                <action android:name="eu.codebits.plasmas.action.PlaylistUpdate"/>
+                <action android:name="camp.pixels.signage.action.PlaylistUpdate"/>
             </intent-filter>
         </receiver>
         
         <receiver android:name=".receivers.StartingReceiver">
             <intent-filter>
-                <action android:name="eu.codebits.plasmas.action.StartPolling"/>
+                <action android:name="camp.pixels.signage.action.StartPolling"/>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
