@@ -137,7 +137,7 @@ public class PlayerService extends IntentService {
                     //Log.i(TAG, item.toString());
                     String kind = item.getString("type").toLowerCase();
                     duration = item.getInt("duration_secs");
-                    if kind.equals("video") {
+                    if (kind.equals("video")) {
                         // For videos, we set up a video tag from a resource template and stick the source URL into it
                         displayItem("data:text/html;base64," + Base64.encodeToString(getString(R.string.video_template).replace("%s", item.getString("uri")).getBytes(), Base64.NO_WRAP));
                         // We also pad the duration with a constant, because there's no way we can get decent
