@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Plasma Player</string>
-    <string name="initial_url" formatted="false"><![CDATA[https://signage.pixels.camp/start]]></string>
-    <string name="polling_url" formatted="false"><![CDATA[https://plasmas.pixels.camp/api/v1/assetlist/]]></string>
+    <string name="app_name">Signage</string>
+    <string name="initial_url" formatted="false"><![CDATA[https://pixels.camp]]></string>
+    <string name="polling_url" formatted="false"><![CDATA[https://signage.pixels.camp/api/v1/assetlist/]]></string>
     <string name="blank_page" formatted="false"><![CDATA[<style>body{background:black;}</style>]]></string>
     <string name="video_template" formatted="false"><![CDATA[
         <html><head><meta name=\"viewport\" content=\"width=1280, user-scalable=no\"/></head>
