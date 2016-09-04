@@ -50,7 +50,7 @@ public class PlayerService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         originalIntent = intent;
         //Log.d(TAG, "Starting player service");
-        
+
         if(alerts != null) {
             new PlayerTask().execute(intent.getIntExtra(PARAM_PLAYLIST_INDEX, alertsIndex));
         }
@@ -65,6 +65,7 @@ public class PlayerService extends IntentService {
         private Exception exception;
         private int duration;
 
+        // Post an intent to our Web activity with the target URL
         private void displayItem(String url) {
             Intent intent = new Intent(getApplicationContext(), FullScreenWebViewActivity.class);
             intent.setData(Uri.parse(url));
@@ -76,6 +77,8 @@ public class PlayerService extends IntentService {
             startActivity(intent);
         }
 
+        // Take the next item from the playlist, returning high-priority items first
+        // and only then moving on to "regular" playlist items
         private JSONObject getNextItem() {
             JSONObject result = null;
             try {
@@ -135,7 +138,10 @@ public class PlayerService extends IntentService {
                     String kind = item.getString("type").toLowerCase();
                     duration = item.getInt("duration_secs");
                     if kind.equals("video") {
+                        // For videos, we set up a video tag from a resource template and stick the source URL into it
                         displayItem("data:text/html;base64," + Base64.encodeToString(getString(R.string.video_template).replace("%s", item.getString("uri")).getBytes(), Base64.NO_WRAP));
+                        // We also pad the duration with a constant, because there's no way we can get decent
+                        // feedback/status from the video tag in Android 4.x
                         duration += context.getResources().getInteger(R.integer.video_buffering_padding);
                         //Log.d(TAG, item.getString("uri"));
                     } else if (kind.equals("web") || kind.equals("alert")) {
