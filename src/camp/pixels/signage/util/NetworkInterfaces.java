@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package eu.codebits.plasmas.util;
+package camp.pixels.signage.util;
 
 import android.annotation.SuppressLint;
 import java.net.InetAddress;

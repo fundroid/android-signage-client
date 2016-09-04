@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package eu.codebits.plasmas.services;
+package camp.pixels.signage.services;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -16,9 +16,9 @@ import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.util.Base64;
 import android.util.Log;
-import eu.codebits.plasmas.FullScreenWebViewActivity;
-import eu.codebits.plasmas.R;
-import eu.codebits.plasmas.receivers.PlayerReceiver;
+import camp.pixels.signage.FullScreenWebViewActivity;
+import camp.pixels.signage.R;
+import camp.pixels.signage.receivers.PlayerReceiver;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +31,7 @@ public class PlayerService extends IntentService {
 
     private static final String TAG = "PlayerService";
 
-    public static final String PARAM_PLAYLIST_INDEX = "eu.codebits.plasmas.services.playlistIndex";
+    public static final String PARAM_PLAYLIST_INDEX = "camp.pixels.signage.services.playlistIndex";
 
     // these need to persist across instantiations
     public static String playlistGUID = "";

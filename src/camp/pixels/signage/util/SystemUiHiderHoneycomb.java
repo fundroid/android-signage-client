@@ -1,4 +1,4 @@
-package eu.codebits.plasmas.util;
+package camp.pixels.signage.util;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

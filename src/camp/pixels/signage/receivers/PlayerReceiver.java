@@ -1,4 +1,4 @@
-package eu.codebits.plasmas.receivers;
+package camp.pixels.signage.receivers;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -9,12 +9,12 @@ import android.os.SystemClock;
 import android.support.v4.content.WakefulBroadcastReceiver;
 import static android.support.v4.content.WakefulBroadcastReceiver.startWakefulService;
 import android.util.Log;
-import eu.codebits.plasmas.FullScreenWebViewActivity;
-import eu.codebits.plasmas.R;
-import eu.codebits.plasmas.services.PlayerService;
-import eu.codebits.plasmas.services.PollingService;
-import static eu.codebits.plasmas.util.NetworkInterfaces.getIPAddress;
-import static eu.codebits.plasmas.util.NetworkInterfaces.getMACAddress;
+import camp.pixels.signage.FullScreenWebViewActivity;
+import camp.pixels.signage.R;
+import camp.pixels.signage.services.PlayerService;
+import camp.pixels.signage.services.PollingService;
+import static camp.pixels.signage.util.NetworkInterfaces.getIPAddress;
+import static camp.pixels.signage.util.NetworkInterfaces.getMACAddress;
 
 
 public class PlayerReceiver extends WakefulBroadcastReceiver {

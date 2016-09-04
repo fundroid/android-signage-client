@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package eu.codebits.plasmas.services;
+package camp.pixels.signage.services;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -17,10 +17,10 @@ import android.os.IBinder;
 import android.os.PowerManager.WakeLock;
 import android.os.SystemClock;
 import android.util.Log;
-import eu.codebits.plasmas.receivers.PlayerReceiver;
-import eu.codebits.plasmas.receivers.StartingReceiver;
-import static eu.codebits.plasmas.services.PlayerService.PARAM_PLAYLIST_INDEX;
-import static eu.codebits.plasmas.util.TrustManager.overrideCertificateChainValidation;
+import camp.pixels.signage.receivers.PlayerReceiver;
+import camp.pixels.signage.receivers.StartingReceiver;
+import static camp.pixels.signage.services.PlayerService.PARAM_PLAYLIST_INDEX;
+import static camp.pixels.signage.util.TrustManager.overrideCertificateChainValidation;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;

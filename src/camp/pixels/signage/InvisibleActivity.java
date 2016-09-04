@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package eu.codebits.plasmas;
+package camp.pixels.signage;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -32,7 +32,7 @@ public class InvisibleActivity extends Activity {
         Log.i(TAG, "Broadcasting initial intent"); 
         // Wake up our receiver, which will then set the alarms and launch the main activity 
         Intent intent = new Intent();
-        intent.setAction("eu.codebits.plasmas.action.StartPolling");
+        intent.setAction("camp.pixels.signage.action.StartPolling");
         intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
         sendBroadcast(intent);
         finish();
