@@ -1,19 +1,25 @@
-[![Stories in Ready](https://badge.waffle.io/sapo/android-signage-client.png?label=ready&title=Ready)](https://waffle.io/sapo/android-signage-client)
-# [Codebits 2014][cb] Digital Signage Client
+[![Stories in Ready](https://badge.waffle.io/rcarmo/android-signage-client.png?label=ready&title=Ready)](https://waffle.io/rcarmo/android-signage-client)
+# [Pixels Camp][pc] Digital Signage Client
 
-This started out as a barebones webview to test browser behavior, and kind of grew organically from there - it includes a few tweaks to the webview to enable the back button, JS extensions, location, manual APK downloads, SSL certificate validation overrides (so appropriate to this age of Heartbleed), and other things you generally _shouldn't_ do in an Android application, but might be useful to somebody.
+This is a fork of the [Codebits 2014 digital signage client][cb], partly to take back ownership (since it was originally developed by myself anyway) and partly to remove all the IDE cruft that conventional Android development seems to require these days (I tried importing the original project into Android Studio 2.1.3 and found myself in a world of pain, bloat and `gradle` idiocy, so this project is built solely with `ant`).
+
+## Background
+
+The client started out as a barebones webview to test browser behavior and grew organically from there. The project targets Android 4.2 (platform 17) because that is what the hardware we had then ran, and on top of "normal" webview behavior includes a few tweaks:
+
+* Enable the back button (for testing)
+* JS extensions for exposing the device IP address, location, manual APK downloads, SSL certificate validation overrides (because this had to talk to test machines with self-signed certificates)
+* ...and other things you generally _shouldn't_ do in an Android application, but might be useful to somebody.
 
 ## Dependencies
 
-Unlike [our Raspberry Pi client from 2012][dsc], this won't be very useful without a server to go with it. 
-
-We'll be cleaning up the server source ASAP (as well as removing some proprietary bits) and putting it up on [this repo][dss], so watch that for updates, because it includes [a spiffy web console][cbb] and other goodies.
+Unlike [the Raspberry Pi client from 2012][dsc], this won't be very useful without a server to go with it. Or, in this year's edition, static files in a blob store someplace.
 
 ## Target Hardware
 
-The target hardware we used was the [Minix Neo X5 mini][minix], which runs Android 4.2.2 out of the box and retails for ~€70, providing a nice bang for the buck (mind you, if you really need 1080p video you'll likely be better off with the X7 mini -- but we haven't tested that).
+The target hardware we used was the [Minix Neo X5 mini][minix], which runs Android 4.2.2 out of the box and retailed for ~€70, providing a nice bang for the buck (although it was not able to do 1080p video properly with the stock firmware). It's kind of sad to see that, at least for digital signage, nothing at least as good has been able to replace it at this point in 2016, really, but 
 
-[Here's a short video of our early stress testing][flickr] -- the set includes screen recordings (from a Mac) of some of the displays we created, and there's [an insane amount of photography][fotos] and [video][videos] from the event for your perusal if you've never actually been to [Codebits][cb].
+[Here's a short video of our early stress testing][flickr] -- the set includes screen recordings (from a Mac) of some of the displays we created, and there's [an insane amount of photography][fotos] and [video][videos] from Codebits for your perusal.
 
 There was no rooting or custom firmware involved, and the only serious issue we had was the infamous [Android Webview memory leak bug][gc], which was heavily apparent if you used `canvas` for rendering assets (which we did, alas).
 
@@ -27,29 +33,29 @@ To play video, we just stick a `video` tag inside the WebView and run with it --
 
 ## Stuff That Needs Improving
 
+* [Better device identifiers](http://android-developers.blogspot.pt/2011/03/identifying-app-installations.html).
 * Due to issues with passing some data in intent extras, we hand over some stuff between services using static class members. This is a hack, and needs to be expunged from the code.
 * Besides exposing the device's MAC and IP addresses in the DOM, we need to provide a way for bi-directional communication between the app and the `video` tag for error handling (i.e., skip to the next playlist item if an HTTP live stream breaks or when a video finishes untimely).
-* The network protocol we chose for 2014 (constantly retrieving a "live" playlist via HTTP polling) was designed in an attempt to do 'live' random playlists and dynamic insertion of MEO Kanal assets, and was, in retrospect, not much of an improvement. Also, there wasn't much time to implement client status metrics, etc.
+* The network protocol we chose for 2014 (constantly retrieving a "live" playlist via HTTP polling) was designed in an attempt to do 'live' random playlists and dynamic insertion of MEO Kanal assets, and was, in retrospect, crap. Also, there wasn't any time to implement client status metrics, etc.
 
-We plan on doing three things regarding the network protocol:
+The original plan for this for was to do three things regarding the network protocol:
 
 * Go back to the original 2012 design (only send playlists when changed, do playlist randomness on the client side, etc.)
 * Implement a separate mode for "live" assets (even if it's an entirely separate player)
 * Use MQTT instead of HTTP polling for real-time sync of multiple displays into a "signage wall".
 
+Given the amount of time available, though, I'm going to be lucky to get this working with a saner HTTP format.
 
 ## Building
 
-First off, edit `strings.xml.dist` with the appropriate endpoints and rename it to `strings.xml`.
+First off, edit `strings.xml` with the appropriate endpoints.
 
-Without an IDE, just set your PATH to the Android tools and use `ant`:
+Then set your `PATH` to include the Android SDK `tools` folder and use `ant` thusly:
 
     export PATH=$PATH:$HOME/Developer/Android/sdk/tools
     # generate debug keystore
     ant debug
     ant release
-
-If you must use an IDE, this repo includes NetBeans project files. We recommend you use those.
 
 ## Running
 
@@ -61,13 +67,12 @@ If you must use an IDE, this repo includes NetBeans project files. We recommend 
     # check logs
     monitor
 
-## Recovering from Eclipse
+## Recovering from an IDE
 
-In case you end up importing the project there and wish to return to a saner environment:
+In case you make the mistake of using an IDE and find yourself wanting to return to a saner environment:
 
     android list targets
-    android update project -p . -t 17
-    
+    android update project -p . -t android-17
     
 [dsc]: https://github.com/sapo/digital-signage-client
 [dss]: https://github.com/sapo/digital-signage-server
@@ -79,4 +84,5 @@ In case you end up importing the project there and wish to return to a saner env
 [flickr]: https://www.flickr.com/photos/ruicarmo/13842749675/in/set-72157643937892615
 [fotos]: http://fotos.sapo.pt/pesquisa/?termos=codebits&listar=muitas&ordenar=maisrecentes
 [videos]: http://videos.sapo.pt/search.html?word=codebits&order=news&page=1
-[cb]: https://codebits.eu
+[pc]: http://pixels.camp
+[cb]: https://github.com/sapo/android-signage-client
