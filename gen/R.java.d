@@ -11,8 +11,4 @@
 /home/rcarmo/Dropbox/Development/android-signage-client/res/values-v11/styles.xml \
 /home/rcarmo/Dropbox/Development/android-signage-client/res/drawable-hdpi/ic_launcher.png \
 /home/rcarmo/Dropbox/Development/android-signage-client/res/layout/activity_fullscreen.xml \
-/home/rcarmo/Dropbox/Development/android-signage-client/bin/res/drawable-xhdpi/ic_launcher.png \
-/home/rcarmo/Dropbox/Development/android-signage-client/bin/res/drawable-mdpi/ic_launcher.png \
-/home/rcarmo/Dropbox/Development/android-signage-client/bin/res/drawable-xxhdpi/ic_launcher.png \
-/home/rcarmo/Dropbox/Development/android-signage-client/bin/res/drawable-hdpi/ic_launcher.png \
 /home/rcarmo/Dropbox/Development/android-signage-client/bin/AndroidManifest.xml \
