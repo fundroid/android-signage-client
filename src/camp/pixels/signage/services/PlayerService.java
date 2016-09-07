@@ -34,7 +34,7 @@ public class PlayerService extends IntentService {
     public static final String PARAM_PLAYLIST_INDEX = "camp.pixels.signage.services.playlistIndex";
 
     // these need to persist across instantiations
-    public static String playlistGUID = "";
+    public static String playlistUUID = "";
     public static JSONArray playlist = null;
     public static JSONArray alerts = null;
     private static int playlistIndex = 0;

@@ -136,8 +136,8 @@ public class PollingService extends IntentService {
                 if (json != null) {
                     String uuid = json.getString("uuid");
                     //Log.d(TAG, "Result: " + uuid);
-                    //Log.d(TAG, "Before: " + PlayerService.playlistGUID);
-                    if (!uuid.equals(PlayerService.playlistGUID)) {
+                    //Log.d(TAG, "Before: " + PlayerService.playlistUUID);
+                    if (!uuid.equals(PlayerService.playlistUUID)) {
                         Log.w(TAG, "Got new playlist");
                         
                         if(json.getBoolean("alerts")) {
@@ -146,7 +146,7 @@ public class PollingService extends IntentService {
                         else {
                             PlayerService.playlist = json.getJSONObject("info").getJSONArray("assets");
                         }
-                        PlayerService.playlistGUID = uuid;
+                        PlayerService.playlistUUID = uuid;
                         // Now kick the player into action - get rid of any alarms and replace any pending intents
                         // otherwise the intent extras will be lost
                         Context context = getApplicationContext();
