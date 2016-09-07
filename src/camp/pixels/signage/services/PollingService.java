@@ -21,6 +21,7 @@ import camp.pixels.signage.receivers.PlayerReceiver;
 import camp.pixels.signage.receivers.StartingReceiver;
 import static camp.pixels.signage.services.PlayerService.PARAM_PLAYLIST_INDEX;
 import static camp.pixels.signage.util.TrustManager.overrideCertificateChainValidation;
+import camp.pixels.signage.util.DeviceIdentifier;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -32,6 +33,8 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.apache.http.client.utils.URIBuilder;
+import java.net.URISyntaxException;
 
 /**
  *
@@ -85,7 +88,8 @@ public class PollingService extends IntentService {
 
             try {
                 //Log.d(TAG, uri[0]);
-                URL url = new URL(uri[0]);
+                URL url = new URIBuilder(uri[0]).addParameter("device",DeviceIdentifier.hardwareId()).build().toURL();
+
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 HttpURLConnection httpConnection = (HttpURLConnection) urlConnection;
                 httpConnection.setAllowUserInteraction(false);
@@ -109,6 +113,10 @@ public class PollingService extends IntentService {
                 Log.e(TAG, e.toString());
                 Log.e(TAG, Log.getStackTraceString(e));
                 this.exception = e;
+            } catch (URISyntaxException e) {
+                Log.e(TAG, e.toString());
+                Log.e(TAG, Log.getStackTraceString(e));
+                this.exception = e;              
             } finally {
                 if (bufferedReader != null) {
                     try {
@@ -126,10 +134,10 @@ public class PollingService extends IntentService {
         protected void onPostExecute(JSONObject json) {
             try {
                 if (json != null) {
-                    String guid = json.getJSONObject("info").getString("guid");
-                    //Log.d(TAG, "Result: " + guid);
+                    String uuid = json.getString("uuid");
+                    //Log.d(TAG, "Result: " + uuid);
                     //Log.d(TAG, "Before: " + PlayerService.playlistGUID);
-                    if (!guid.equals(PlayerService.playlistGUID)) {
+                    if (!uuid.equals(PlayerService.playlistGUID)) {
                         Log.w(TAG, "Got new playlist");
                         
                         if(json.getBoolean("alerts")) {
@@ -138,7 +146,7 @@ public class PollingService extends IntentService {
                         else {
                             PlayerService.playlist = json.getJSONObject("info").getJSONArray("assets");
                         }
-                        PlayerService.playlistGUID = guid;
+                        PlayerService.playlistGUID = uuid;
                         // Now kick the player into action - get rid of any alarms and replace any pending intents
                         // otherwise the intent extras will be lost
                         Context context = getApplicationContext();
