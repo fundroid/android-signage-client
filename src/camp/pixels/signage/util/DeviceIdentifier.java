@@ -14,7 +14,7 @@ public class DeviceIdentifier {
     private static String sID = null;
     private static final String INSTALLATION = "INSTALLATION";
 
-    public static String getHardwareId(Context context) {
+    public static String getHardwareID(Context context) {
         return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
     }
 
