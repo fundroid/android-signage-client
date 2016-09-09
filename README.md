@@ -25,7 +25,7 @@ There was no rooting or custom firmware involved, and the only serious issue we 
 
 ## Architecture
 
-This app consists of an `InvisibleActivity` that provides a launcher icon and sets up a `PollingService` to run on boot. That in turn contacts the server, grabs playlist updates (basically a sequence of URLs) and hands them over to a `PlayerService` which actually asks a `FullScreenWebviewActivity` to render the signage displays.
+This app consists of an `InvisibleActivity` that provides a launcher icon and sets up a `PollingService` to run on boot (using the `StarterReceiver`). That in turn contacts the server, grabs playlist updates (basically a sequence of URLs) and hands them over to a `PlayerService` which actually asks a `FullScreenWebviewActivity` to render the signage displays.
 
 All the signage displays we built were HTML5 pages that used the [Codebits API][api], residing on a [MEO Cloud][mc] shared folder, and none come with the client.
 
