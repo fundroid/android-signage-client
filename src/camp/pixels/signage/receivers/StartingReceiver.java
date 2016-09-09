@@ -12,9 +12,9 @@ import android.util.Log;
 import camp.pixels.signage.FullScreenWebViewActivity;
 import camp.pixels.signage.services.PollingService;
 import camp.pixels.signage.R;
+import static camp.pixels.signage.util.DeviceIdentifier.getHardwareID;
 import static camp.pixels.signage.util.NetworkInterfaces.getIPAddress;
 import static camp.pixels.signage.util.NetworkInterfaces.getMACAddress;
-import static camp.pixels.signage.util.DeviceIdentifier.getHardwareID;
 import static camp.pixels.signage.util.TrustManager.overrideCertificateChainValidation;
 
 // Begin polling upon starting application
