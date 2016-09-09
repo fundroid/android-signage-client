@@ -1,7 +1,7 @@
 
 package camp.pixels.signage.util;
 
-import android.provider.Settings;
+import android.provider.Settings.Secure;
 import android.content.Context;
 import java.io.File;
 import java.io.RandomAccessFile;
@@ -14,11 +14,11 @@ public class DeviceIdentifier {
     private static String sID = null;
     private static final String INSTALLATION = "INSTALLATION";
 
-    public static String hardwareId() {
-        return Settings.Secure.ANDROID_ID;
+    public static String getHardwareId(Context context) {
+        return Secure.getString(context.getContentResolver(), Secure.ANDROID_ID);
     }
 
-    public synchronized static String installationID(Context context) {
+    public synchronized static String getInstallationID(Context context) {
         if (sID == null) {  
             File installation = new File(context.getFilesDir(), INSTALLATION);
             try {

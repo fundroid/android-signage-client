@@ -14,11 +14,12 @@ import camp.pixels.signage.services.PollingService;
 import camp.pixels.signage.R;
 import static camp.pixels.signage.util.NetworkInterfaces.getIPAddress;
 import static camp.pixels.signage.util.NetworkInterfaces.getMACAddress;
+import static camp.pixels.signage.util.DeviceIdentifier.getHardwareID;
 import static camp.pixels.signage.util.TrustManager.overrideCertificateChainValidation;
 
+// Begin polling upon starting application
 
 public class StartingReceiver extends WakefulBroadcastReceiver {
-    
     private static final String TAG = "PollingReceiver";
 
     @Override
@@ -29,7 +30,7 @@ public class StartingReceiver extends WakefulBroadcastReceiver {
         int polling_interval = context.getResources().getInteger(R.integer.polling_interval);
         
         // Format the request URL and send it over to the service as initial data
-        service.setData(Uri.parse(context.getResources().getString(R.string.polling_url) + getMACAddress(null) + '/' + getIPAddress(null, true)));
+        service.setData(Uri.parse(context.getResources().getString(R.string.polling_url) + getHardwareID(context) + '/' + getMACAddress(null) + '/' + getIPAddress(null, true)));
         // Set up a pending intent from our service
         PendingIntent pendingService = PendingIntent.getService(context, 0, service, 0);
         // Cancel any existing alarms for this service, just in case
