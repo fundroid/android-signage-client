@@ -34,7 +34,6 @@ import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.apache.http.client.utils.URIBuilder;
-import java.net.URISyntaxException;
 
 /**
  *
@@ -62,7 +61,7 @@ public class PollingService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         originalIntent = intent;
-        //Log.d(TAG, "Starting polling task");
+        Log.d(TAG, "Starting polling task");
         
         if(trustingHostnameVerifier != null) {
             HttpsURLConnection.setDefaultHostnameVerifier(trustingHostnameVerifier);
@@ -84,12 +83,12 @@ public class PollingService extends IntentService {
         protected JSONObject doInBackground(String... uri) {
             JSONObject json = null;
             BufferedReader bufferedReader = null;
-            //Log.d(TAG, "Running polling task");
+            Context context = getApplicationContext();
+            Log.d(TAG, "Running polling task");
 
             try {
-                //Log.d(TAG, uri[0]);
-                URL url = new URIBuilder(uri[0]).addParameter("device",DeviceIdentifier.hardwareId()).build().toURL();
-
+                Log.d(TAG, uri[0]);
+                URL url = new URL(uri[0]);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 HttpURLConnection httpConnection = (HttpURLConnection) urlConnection;
                 httpConnection.setAllowUserInteraction(false);
@@ -113,10 +112,6 @@ public class PollingService extends IntentService {
                 Log.e(TAG, e.toString());
                 Log.e(TAG, Log.getStackTraceString(e));
                 this.exception = e;
-            } catch (URISyntaxException e) {
-                Log.e(TAG, e.toString());
-                Log.e(TAG, Log.getStackTraceString(e));
-                this.exception = e;              
             } finally {
                 if (bufferedReader != null) {
                     try {
@@ -126,7 +121,7 @@ public class PollingService extends IntentService {
                     }
                 }
             }
-            //Log.d(TAG, "Got JSON");
+            Log.d(TAG, "Got JSON");
             return json;
         }
 
