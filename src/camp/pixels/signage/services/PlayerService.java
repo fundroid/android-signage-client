@@ -143,10 +143,10 @@ public class PlayerService extends IntentService {
                         // We also pad the duration with a constant, because there's no way we can get decent
                         // feedback/status from the video tag in Android 4.x
                         duration += context.getResources().getInteger(R.integer.video_buffering_padding);
-                        //Log.d(TAG, item.getString("uri"));
+                        //Log.d(TAG, item.getString("url"));
                     } else if (kind.equals("web") || kind.equals("alert")) {
-                        //Log.d(TAG, item.getString("uri"));
-                        displayItem(item.getString("uri"));
+                        //Log.d(TAG, item.getString("url"));
+                        displayItem(item.getString("url"));
                     }
                 }
             } catch (Exception e) {
