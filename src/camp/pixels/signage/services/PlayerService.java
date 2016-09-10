@@ -134,12 +134,12 @@ public class PlayerService extends IntentService {
                 }
                 JSONObject item = getNextItem();
                 if ((item != null) && item.getBoolean("active")) {
-                    //Log.i(TAG, item.toString());
+                    Log.i(TAG, item.toString());
                     String kind = item.getString("kind").toLowerCase();
                     duration = item.getInt("duration");
                     if (kind.equals("video")) {
                         // For videos, we set up a video tag from a resource template and stick the source URL into it
-                        displayItem("data:text/html;base64," + Base64.encodeToString(getString(R.string.video_template).replace("%s", item.getString("uri")).getBytes(), Base64.NO_WRAP));
+                        displayItem("data:text/html;base64," + Base64.encodeToString(getString(R.string.video_template).replace("%s", item.getString("url")).getBytes(), Base64.NO_WRAP));
                         // We also pad the duration with a constant, because there's no way we can get decent
                         // feedback/status from the video tag in Android 4.x
                         duration += context.getResources().getInteger(R.integer.video_buffering_padding);
