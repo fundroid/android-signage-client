@@ -84,7 +84,7 @@ public class PlayerService extends IntentService {
             try {
                 //Log.d(TAG, String.valueOf(playlistIndex));
                 // check for alerts first
-                if (alerts.length()) {
+                if (alerts == null) {
                     alertsIndex = 0;
                 }
                 else {
@@ -133,10 +133,10 @@ public class PlayerService extends IntentService {
                     playlistIndex = params[0];                    
                 }
                 JSONObject item = getNextItem();
-                if (item != null) {
+                if (item != null and item.getBoolean("active")) {
                     //Log.i(TAG, item.toString());
-                    String kind = item.getString("type").toLowerCase();
-                    duration = item.getInt("duration_secs");
+                    String kind = item.getString("kind").toLowerCase();
+                    duration = item.getInt("duration");
                     if (kind.equals("video")) {
                         // For videos, we set up a video tag from a resource template and stick the source URL into it
                         displayItem("data:text/html;base64," + Base64.encodeToString(getString(R.string.video_template).replace("%s", item.getString("uri")).getBytes(), Base64.NO_WRAP));

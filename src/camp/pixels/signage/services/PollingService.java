@@ -134,7 +134,6 @@ public class PollingService extends IntentService {
                     //Log.d(TAG, "Before: " + PlayerService.playlistUUID);
                     if (!uuid.equals(PlayerService.playlistUUID)) {
                         Log.w(TAG, "Got new playlist");
-                        
                         if(json.getBoolean("alerts")) {
                             PlayerService.alerts = json.getJSONArray("assets");
                         }
