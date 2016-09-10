@@ -136,10 +136,10 @@ public class PollingService extends IntentService {
                         Log.w(TAG, "Got new playlist");
                         
                         if(json.getBoolean("alerts")) {
-                            PlayerService.alerts = json.getJSONObject("info").getJSONArray("assets");
+                            PlayerService.alerts = json.getJSONArray("assets");
                         }
                         else {
-                            PlayerService.playlist = json.getJSONObject("info").getJSONArray("assets");
+                            PlayerService.playlist = json.getJSONArray("assets");
                         }
                         PlayerService.playlistUUID = uuid;
                         // Now kick the player into action - get rid of any alarms and replace any pending intents

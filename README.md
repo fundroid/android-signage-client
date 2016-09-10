@@ -33,10 +33,12 @@ To play video, we just stick a `video` tag inside the WebView and run with it --
 
 ## Stuff That Needs Improving
 
-* [Better device identifiers](http://android-developers.blogspot.pt/2011/03/identifying-app-installations.html).
-* Due to issues with passing some data in intent extras, we hand over some stuff between services using static class members. This is a hack, and needs to be expunged from the code.
-* Besides exposing the device's MAC and IP addresses in the DOM, we need to provide a way for bi-directional communication between the app and the `video` tag for error handling (i.e., skip to the next playlist item if an HTTP live stream breaks or when a video finishes untimely).
-* The network protocol we chose for 2014 (constantly retrieving a "live" playlist via HTTP polling) was designed in an attempt to do 'live' random playlists and dynamic insertion of MEO Kanal assets, and was, in retrospect, crap. Also, there wasn't any time to implement client status metrics, etc.
+* [ ] Due to issues with passing some data in intent extras, we hand over some stuff between services using static class members. This is a hack, and needs to be expunged from the code.
+* [ ] Besides exposing the device's MAC and IP addresses in the DOM, we need to provide a way for bi-directional communication between the app and the `video` tag for error handling (i.e., skip to the next playlist item if an HTTP live stream breaks or when a video finishes untimely).
+* [ ] The network protocol we chose for 2014 (constantly retrieving a "live" playlist via HTTP polling) was designed in an attempt to do 'live' random playlists and dynamic insertion of MEO Kanal assets, and was, in retrospect, crap. 
+* [ ] Client status metrics, etc.
+* [ ] Try (again) to [handle video playback with a customView](http://stackoverflow.com/questions/3815090/webview-and-html5-video)
+* [x] [Better device identifiers](http://android-developers.blogspot.pt/2011/03/identifying-app-installations.html).
 
 The original plan for this for was to do three things regarding the network protocol:
 

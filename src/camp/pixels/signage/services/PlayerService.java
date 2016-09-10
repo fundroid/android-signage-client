@@ -84,7 +84,7 @@ public class PlayerService extends IntentService {
             try {
                 //Log.d(TAG, String.valueOf(playlistIndex));
                 // check for alerts first
-                if (alerts == null) {
+                if (alerts.length()) {
                     alertsIndex = 0;
                 }
                 else {
