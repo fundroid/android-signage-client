@@ -45,11 +45,15 @@
             </intent-filter>
         </activity>
 
-        <!-- this polls the server for updates -->
-        <service android:name=".services.PollingService"/>
+        <!-- this polls the server for updates - has to be exported to be accessible-->
+        <service android:name=".services.PollingService"
+                 android:enabled="true"
+                 android:exported="true"/>
 
         <!-- this handles each item and controls the webview -->
-        <service android:name=".services.PlayerService"/>
+        <service android:name=".services.PlayerService"
+                 android:enabled="true"
+                 android:exported="true"/>
 
         <!-- this handles playlist updates -->
         <receiver android:name=".receivers.PlayerReceiver">
