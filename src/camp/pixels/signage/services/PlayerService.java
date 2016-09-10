@@ -133,7 +133,7 @@ public class PlayerService extends IntentService {
                     playlistIndex = params[0];                    
                 }
                 JSONObject item = getNextItem();
-                if (item != null and item.getBoolean("active")) {
+                if ((item != null) && item.getBoolean("active")) {
                     //Log.i(TAG, item.toString());
                     String kind = item.getString("kind").toLowerCase();
                     duration = item.getInt("duration");
